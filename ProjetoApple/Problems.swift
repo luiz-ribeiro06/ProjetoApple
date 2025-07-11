@@ -7,18 +7,35 @@
 
 import Foundation
 
-enum Subject {
-    case math
-    case chemistry
-    case geography
+enum Subject: String {
+    case math = "Matemática"
+    case chemistry = "Química"
+    case geography = "Geografia"
 }
 
-class Problems {
+enum Exam: String {
+    case unspecified = "Nenhum"
+    case enem = "ENEM"
+    case ita = "ITA"
+}
+
+class Problems: Identifiable {
+    let id = UUID()
     var problemStatement: String
     var subject: Subject
+    var exam: Exam
+    var alternatives: [String]
+    var correctAnswer: Int
     
-    init(problemStatement: String, subject: Subject) {
+    func checkIfCorrect(selectedAlternative: Int) -> Bool {
+        return selectedAlternative == self.correctAnswer
+    }
+    
+    init(problemStatement: String, subject: Subject, exam: Exam, alternatives: [String], correctAnswer: Int) {
         self.problemStatement = problemStatement
         self.subject = subject
+        self.exam = exam
+        self.alternatives = alternatives
+        self.correctAnswer = correctAnswer
     }
 }
