@@ -13,23 +13,28 @@ enum Subject: String {
     case geography = "Geografia"
 }
 
+enum Exam: String {
+    case unspecified = "Nenhum"
+    case enem = "ENEM"
+    case ita = "ITA"
+}
+
 class Problems: Identifiable {
     let id = UUID()
     var problemStatement: String
     var subject: Subject
+    var exam: Exam
     var alternatives: [String]
     var correctAnswer: Int
     
     func checkIfCorrect(selectedAlternative: Int) -> Bool {
-        if selectedAlternative == self.correctAnswer {
-            return true
-        }
-        return false
+        return selectedAlternative == self.correctAnswer
     }
     
-    init(problemStatement: String, subject: Subject, alternatives: [String], correctAnswer: Int) {
+    init(problemStatement: String, subject: Subject, exam: Exam, alternatives: [String], correctAnswer: Int) {
         self.problemStatement = problemStatement
         self.subject = subject
+        self.exam = exam
         self.alternatives = alternatives
         self.correctAnswer = correctAnswer
     }
