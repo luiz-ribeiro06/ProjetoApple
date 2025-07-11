@@ -16,9 +16,20 @@ enum Subject {
 class Problems {
     var problemStatement: String
     var subject: Subject
+    var alternatives: [String]
+    var correctAnswer: Int
     
-    init(problemStatement: String, subject: Subject) {
+    func checkIfCorrect(selectedAlternative: Int) -> Bool {
+        if selectedAlternative == self.correctAnswer {
+            return true
+        }
+        return false
+    }
+    
+    init(problemStatement: String, subject: Subject, alternatives: [String], correctAnswer: Int) {
         self.problemStatement = problemStatement
         self.subject = subject
+        self.alternatives = alternatives
+        self.correctAnswer = correctAnswer
     }
 }
