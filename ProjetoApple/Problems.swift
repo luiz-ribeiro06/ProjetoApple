@@ -19,6 +19,13 @@ enum Exam: String {
     case ita = "ITA"
 }
 
+// To do: checar se a questão é válida com base no estilo
+enum Style: String {
+    case objective = "Objetiva"
+    case subjective = "Subjetiva"
+    case trueFalse = "Verdadeiro ou Falso"
+}
+
 class Problems: Identifiable {
     let id = UUID()
     var problemStatement: String
