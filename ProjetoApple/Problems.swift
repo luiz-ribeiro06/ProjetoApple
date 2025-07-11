@@ -7,13 +7,14 @@
 
 import Foundation
 
-enum Subject {
-    case math
-    case chemistry
-    case geography
+enum Subject: String {
+    case math = "Matemática"
+    case chemistry = "Química"
+    case geography = "Geografia"
 }
 
-class Problems {
+class Problems: Identifiable {
+    let id = UUID()
     var problemStatement: String
     var subject: Subject
     var alternatives: [String]
