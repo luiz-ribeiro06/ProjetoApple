@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 enum Subject: String {
     case math = "Matemática"
