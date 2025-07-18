@@ -30,19 +30,39 @@ struct ProblemView: View {
                 }
                 ForEach(Array(problem.possibleAnswers.enumerated()), id: \.offset) { index, answer in
                     Button(action: {
-                        // To do: implementar ação ao selecionar uma alternativa
+                        selectedAnswer = index
                     }) {
                         Text(answer)
+                            .frame(minWidth: 30)
                             .padding(3.5)
-                            .background(Color.gray.opacity(0.2))
+                            .background(.gray.opacity(0.2))
                             .cornerRadius(5)
                     }
                 }
+                // Vai ser deletado (em algum momento)
+                if let selectedAnswer = selectedAnswer {
+                    Text("\(selectedAnswer)")
+                }
             }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button(action: {
+                        if selectedAnswer == problem.correctAnswer {
+                            // To do...
+                        }
+                    }) {
+                        Text("Responder")
+                    }
+                }
+            }
+            .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
+            .toolbarBackground(.visible, for: .bottomBar)
         }
     }
 }
 
 #Preview {
-    ProblemView(problem: Problems(problemStatement: "Quanto é 2 + 2?", subject: .math, exam: .enem, style: .objective, possibleAnswers: ["2", "4", "22", "5"], correctAnswer: 1))
+    NavigationStack {
+        ProblemView(problem: Problems(problemStatement: "Quanto é 2 + 2?", subject: .math, exam: .enem, style: .objective, possibleAnswers: ["2", "4", "22", "5"], correctAnswer: 1))
+    }
 }
