@@ -12,10 +12,13 @@ struct ProblemView: View {
     
     @State var selectedAnswer: Int?
     
+    @State var showAnswer: Bool = false
+    
     var body: some View {
-        HStack() {
+        HStack {
             VStack(alignment: .leading) {
                 Text(problem.problemStatement)
+                    .padding(3.5)
                 HStack {
                     Text("#\(problem.subject.rawValue.lowercased())")
                         .padding(3.5)
@@ -35,29 +38,31 @@ struct ProblemView: View {
                         Text(answer)
                             .frame(minWidth: 30)
                             .padding(3.5)
-                            .background(.gray.opacity(0.2))
+                            .background(selectedAnswer == index ? Color.blue.opacity(0.3) : Color.gray.opacity(0.2))
                             .cornerRadius(5)
                     }
+                    .disabled(showAnswer)
                 }
-                // Vai ser deletado (em algum momento)
-                if let selectedAnswer = selectedAnswer {
-                    Text("\(selectedAnswer)")
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        if selectedAnswer == problem.correctAnswer {
-                            // To do...
-                        }
-                    }) {
-                        Text("Responder")
+                if showAnswer {
+                    if selectedAnswer == problem.correctAnswer {
+                        Text("Correto!")
+                    } else {
+                        Text("Errado!")
                     }
                 }
             }
-            .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
-            .toolbarBackground(.visible, for: .bottomBar)
         }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                        showAnswer = true
+                }) {
+                    Text("Responder")
+                }
+            }
+        }
+        .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
+        .toolbarBackground(.visible, for: .bottomBar)
     }
 }
 
