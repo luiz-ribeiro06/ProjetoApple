@@ -12,6 +12,8 @@ struct ProblemView: View {
     
     @State var selectedAnswer: Int?
     
+    @State var showAnswer: Bool = false
+    
     var body: some View {
         HStack() {
             VStack(alignment: .leading) {
@@ -39,25 +41,26 @@ struct ProblemView: View {
                             .cornerRadius(5)
                     }
                 }
-                // Vai ser deletado (em algum momento)
-                if let selectedAnswer = selectedAnswer {
-                    Text("\(selectedAnswer)")
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button(action: {
-                        if selectedAnswer == problem.correctAnswer {
-                            // To do...
-                        }
-                    }) {
-                        Text("Responder")
+                if showAnswer {
+                    if selectedAnswer == problem.correctAnswer {
+                        Text("Correct!")
+                    } else {
+                        Text("Wrong!")
                     }
                 }
             }
-            .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
-            .toolbarBackground(.visible, for: .bottomBar)
         }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                Button(action: {
+                        showAnswer = true
+                }) {
+                    Text("Responder")
+                }
+            }
+        }
+        .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
+        .toolbarBackground(.visible, for: .bottomBar)
     }
 }
 
