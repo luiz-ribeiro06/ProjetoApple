@@ -10,9 +10,13 @@ import SwiftUI
 struct ProblemView: View {
     @State var problem: Problems
     
+    @State var user: User
+    
     @State var selectedAnswer: Int?
     
     @State var showAnswer: Bool = false
+    
+    @State var isAnswerCorrect: Bool = false
     
     var body: some View {
         HStack (alignment: .top){
@@ -38,14 +42,13 @@ struct ProblemView: View {
                         Text(answer)
                             .frame(minWidth: 30)
                             .padding(3.5)
-                            .background(selectedAnswer == index ? Color.blue.opacity(0.3) : Color.gray.opacity(0.2))
+                            .background(showAnswer ? (index == problem.correctAnswer ? Color.green.opacity(0.3) : (selectedAnswer == index ? Color.red.opacity(0.3) : Color.gray.opacity(0.2))) : (selectedAnswer == index ? Color.blue.opacity(0.3) : Color.gray.opacity(0.2)))
                             .cornerRadius(5)
                     }
                     .disabled(showAnswer)
                 }
                 if showAnswer {
-                    Text(selectedAnswer == problem.correctAnswer ? "Correto!" : "Errado!")
-                        .transition(.opacity)
+                    Text(isAnswerCorrect ? "Correto!" : "Errado!")
                         .animation(.easeInOut, value: showAnswer)
                 }
             }
@@ -54,8 +57,12 @@ struct ProblemView: View {
             ToolbarItem(placement: .bottomBar) {
                 if !showAnswer {
                     Button("Responder") {
-                        withAnimation {
-                            showAnswer = true
+                        checkAnswer()
+                        
+                        if isAnswerCorrect {
+                            user.correctAnswers += 1
+                        } else {
+                            user.wrongAnswers += 1
                         }
                     }
                 } else {
@@ -70,10 +77,15 @@ struct ProblemView: View {
         .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
         .toolbarBackground(.visible, for: .bottomBar)
     }
+
+    func checkAnswer() {
+        isAnswerCorrect = (selectedAnswer == problem.correctAnswer)
+        showAnswer = true
+    }
 }
 
 #Preview {
     NavigationStack {
-        ProblemView(problem: Problems(problemStatement: "Quanto é 2 + 2?", subject: .math, exam: .enem, style: .objective, possibleAnswers: ["2", "4", "22", "5"], correctAnswer: 1))
+        ProblemView(problem: Problems(problemStatement: "Quanto é 2 + 2?", subject: .math, exam: .enem, style: .objective, possibleAnswers: ["2", "4", "22", "5"], correctAnswer: 1), user: User())
     }
 }
