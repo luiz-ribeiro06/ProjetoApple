@@ -4,5 +4,5 @@
 ## Features
 + {Feature 1}
 + {Feature 2}
-...
+  ...
 + {feature n}
