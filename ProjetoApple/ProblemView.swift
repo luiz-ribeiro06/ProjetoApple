@@ -15,7 +15,7 @@ struct ProblemView: View {
     @State var showAnswer: Bool = false
     
     var body: some View {
-        HStack {
+        HStack (alignment: .top){
             VStack(alignment: .leading) {
                 Text(problem.problemStatement)
                     .padding(3.5)
@@ -44,20 +44,26 @@ struct ProblemView: View {
                     .disabled(showAnswer)
                 }
                 if showAnswer {
-                    if selectedAnswer == problem.correctAnswer {
-                        Text("Correto!")
-                    } else {
-                        Text("Errado!")
-                    }
+                    Text(selectedAnswer == problem.correctAnswer ? "Correto!" : "Errado!")
+                        .transition(.opacity)
+                        .animation(.easeInOut, value: showAnswer)
                 }
             }
         }
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
-                Button(action: {
-                        showAnswer = true
-                }) {
-                    Text("Responder")
+                if !showAnswer {
+                    Button("Responder") {
+                        withAnimation {
+                            showAnswer = true
+                        }
+                    }
+                } else {
+                    Button("Prosseguir") {
+                        // To do
+                    }
+                    .transition(.opacity)
+                    .animation(.easeInOut, value: showAnswer)
                 }
             }
         }
