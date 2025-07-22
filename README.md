@@ -4,4 +4,4 @@
 ## Features
 + {Feature 1}
 + {Feature 2}
-+ {feature 3}
++ {Feature 3}
