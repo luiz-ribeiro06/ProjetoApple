@@ -2,6 +2,6 @@
 {nomeDoApp} é um aplicativo focado na criação e resolução de questões.
 
 ## Features
-+ {Feature 1}
-+ {Feature 2}
-+ {Feature 3}
++ {feature1}
++ {feature2}
++ {feature3}
