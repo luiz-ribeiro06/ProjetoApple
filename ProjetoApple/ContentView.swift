@@ -84,15 +84,17 @@ struct AddQuestionSheet: View {
     @State private var date: Date = .now
     @State private var value: Double = 0
     
+    
     var body: some View{
         NavigationStack{
             Form{
-                TextField("Tipo de questão", text: $name)
+                TextField("Enunciado", text: $name)
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                 TextField("Enunciado", value: $value, format: .currency(code: "USD"))
+                
         
             }
-            .navigationTitle("Nova questão")
+            .navigationTitle("Adicionar Questão")
             .navigationBarTitleDisplayMode(.large)
             .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading){

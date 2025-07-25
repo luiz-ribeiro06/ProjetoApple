@@ -18,40 +18,45 @@ struct MenuView: View {
         
         NavigationStack {
             
-        
+        Text("")
             
-            VStack {
-                TextField("Enter Text", text: $inputText)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .onSubmit {
-                        print("Submitted: \(inputText)")
-                       
+                .navigationTitle(Text("App de Questões"))
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(destination: ContentView()) {
+                            Image(systemName: "plus")
+                                .searchable(text: $inputText)
+                        }
+                        
+                        
+                        
+                        
+                        
                     }
-            }
-            Spacer()
+                }
+            
             
                 .toolbar {
                     ToolbarItem (placement: .bottomBar) {
                         HStack {
                             
-                           
-                                Button(action: {}, label: {
+                            Button(action: {}, label: {
+                                VStack (spacing: 4) {
+                                    Image(systemName: "house.fill").font(.title)
+                                    Text("Início").font(.system(size: 16))
                                     
-                                    VStack (spacing: 4) {
-                                        Image(systemName: "house.fill").font(.title)
-                                        Text("Início").font(.system(size: 16))
-                                    }
-                                })
-                                Button(action: {}, label: {
-                                    VStack (spacing: 4) {
-                                        Image(systemName: "person.3.sequence.fill").font(.title)
-                                        Text("Comunidade").font(.system(size: 16))
-                                    }
+                                }
+                            
                             })
                             Button(action: {}, label: {
                                 VStack (spacing: 4) {
-                                    Image(systemName: "hourglass").font(.title)
+                                    Image(systemName: "person.3.sequence.fill").font(.title)
+                                    Text("Comunidade").font(.system(size: 16))
+                                }
+                            })
+                            Button(action: {}, label: {
+                                VStack (spacing: 4) {
+                                    Image(systemName: "chart.bar.fill").font(.title)
                                     Text("Desempenho").font(.system(size: 16))
                                     
                                 }
@@ -76,4 +81,5 @@ struct MenuView: View {
 }
                         
                         
+
 
