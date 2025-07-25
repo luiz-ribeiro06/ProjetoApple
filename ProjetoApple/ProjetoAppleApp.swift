@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 @main
 struct ProjetoAppleApp: App {
     var body: some Scene {
         WindowGroup {
             MenuView()
+            .modelContainer(for: [Expense.self])
         }
     }
 }
