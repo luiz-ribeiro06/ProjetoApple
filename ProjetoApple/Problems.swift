@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftData
 
 enum Subject: String {
     case math = "Matemática"
@@ -50,11 +51,6 @@ class Problems: Identifiable {
         case .trueFalse:
             return true
         }
-    }
-    
-    // Verifica se a alternativa selecionada pelo usuário é a correta.
-    func isCorrect(selectedAlternative: Int) -> Bool {
-        return selectedAlternative == self.correctAnswer
     }
     
     init(problemStatement: String, subject: Subject, exam: Exam, style: Style, possibleAnswers: [String], correctAnswer: Int) {
