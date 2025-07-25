@@ -53,11 +53,6 @@ class Problems: Identifiable {
         }
     }
     
-    // Verifica se a alternativa selecionada pelo usuário é a correta.
-    func isCorrect(selectedAlternative: Int) -> Bool {
-        return selectedAlternative == self.correctAnswer
-    }
-    
     init(problemStatement: String, subject: Subject, exam: Exam, style: Style, possibleAnswers: [String], correctAnswer: Int) {
         self.problemStatement = problemStatement
         self.subject = subject
