@@ -14,7 +14,7 @@ struct ProjetoAppleApp: App {
     var body: some Scene {
         WindowGroup {
             MenuView()
-            .modelContainer(for: [Expense.self])
+            .modelContainer(for: [Problems.self])
         }
     }
 }

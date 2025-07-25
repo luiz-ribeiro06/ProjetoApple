@@ -12,49 +12,48 @@ struct ContentView: View {
     @State private var isShowingItemSheet = false
     @Environment(\.modelContext) var context
     //query com base na data
-    @Query(sort: \Expense.date) var expenses: [Expense]
-    @State private var expenseToEdit: Expense?
+    @Query var problems: [Problems]
+    @State var problemToEdit: Problems?
 
     var body: some View {
         NavigationStack{
             List{
-                ForEach(expenses) { expense in
-                    ExpenseCell(expense: expense)
+                ForEach(problems) { problem in
+                    ProblemCell(problem: problem)
                         .onTapGesture {
-                            expenseToEdit =  expense
+                            problemToEdit =  problem
                         }
                 }
                 .onDelete {indexSet in for index in indexSet {
-                    context.delete(expenses[index])
+                    context.delete(problems[index])
                     try! context.save()
                    }
                 }
             }
             .navigationTitle("Questões")
             .navigationBarTitleDisplayMode(.large)
-            .sheet(isPresented: $isShowingItemSheet){ AddQuestionSheet() }
-            .sheet(item: $expenseToEdit){expense in
-                UpdateExpenseSheet(expense: expense)
+            .sheet(isPresented: $isShowingItemSheet){ AddProblemSheet() }
+            .sheet(item: $problemToEdit){problem in
+                UpdateProblemSheet(problem: problem)
                 
             }
             .toolbar{
-                if !expenses.isEmpty {
-                    Button("Add Expense", systemImage: "plus"){
+                if !problems.isEmpty {
+                    Button("Adicionar questão", systemImage: "plus"){
                         isShowingItemSheet = true
                     }
                 }
             }
             .overlay {
-                if expenses.isEmpty {
+                if problems.isEmpty {
                     ContentUnavailableView(label: {
                         Label("Sem questões!", systemImage: "")
                     }, description: {
                         Text("Clique abaixo para adicionar questões.")
                     }, actions:{
-                        Button("Adicionar questão!"){ isShowingItemSheet = true }
+                        Button("Adicionar questão"){ isShowingItemSheet = true }
                     })
                     .offset(y:-60)
-                    .background(Color.white)
                 }
             }
         }
@@ -62,35 +61,46 @@ struct ContentView: View {
 }
 
 
-struct ExpenseCell: View{
+struct ProblemCell: View{
     
-    let expense: Expense
+    let problem: Problems
     
     var body: some View {
         HStack {
-            Text(expense.date, format: .dateTime.month(.abbreviated).day())
+            Text(problem.subject.rawValue)
                 .frame(width: 70, alignment: .leading)
-            Text(expense.name)
+            Text(problem.problemStatement)
             Spacer()
-            Text(expense.value, format: .currency(code: "USD"))
+            Text(problem.style.rawValue)
         }
     }
 }
 
-struct AddQuestionSheet: View {
+struct AddProblemSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) var context
-    @State private var name: String = ""
-    @State private var date: Date = .now
-    @State private var value: Double = 0
+    @State var statement: String = ""
+    @State var subject: Subject = .math
+    @State var exam: Exam = .enem
+    @State var style: Style = .objective
+    @State var possibleAnswers: [String] = ["2"]
+    @State var correctAnswer: Int = 0
     
     
     var body: some View{
         NavigationStack{
             Form{
-                TextField("Enunciado", text: $name)
-                DatePicker("Date", selection: $date, displayedComponents: .date)
-                TextField("Enunciado", value: $value, format: .currency(code: "USD"))
+                TextField("Enunciado...", text: $statement)
+                Picker("Disciplina", selection: $subject) {
+                    Text("Matemática").tag(Subject.math)
+                    Text("Química").tag(Subject.chemistry)
+                    Text("Geografia").tag(Subject.geography)
+                }
+                Picker("Vestibular", selection: $exam) {
+                    Text("Nenhum").tag(Exam.unspecified)
+                    Text("ENEM").tag(Exam.enem)
+                    Text("ITA").tag(Exam.ita)
+                }
                 
         
             }
@@ -100,10 +110,10 @@ struct AddQuestionSheet: View {
                 ToolbarItemGroup(placement: .topBarLeading){
                     Button("Cancelar") { dismiss() }
                 }
-                ToolbarItemGroup(placement: .topBarLeading){
+                ToolbarItemGroup(placement: .topBarTrailing){
                     Button("Salvar") {
-                        let expense = Expense(name: name, date: date, value: value)
-                        context.insert(expense)
+                        let problem = Problems(problemStatement: statement, subject: subject, exam: exam, style: style, possibleAnswers: possibleAnswers, correctAnswer: correctAnswer)
+                        context.insert(problem)
                         
                         try! context.save()
                         
@@ -115,17 +125,14 @@ struct AddQuestionSheet: View {
     }
 }
 
-struct UpdateExpenseSheet: View{
+struct UpdateProblemSheet: View{
     @Environment(\.dismiss) private var dismiss
-    @Bindable var expense: Expense
+    @Bindable var problem: Problems
     
     var body: some View{
         NavigationStack{
             Form{
-                TextField("Expense Name", text: $expense.name)
-                DatePicker("Date", selection: $expense.date, displayedComponents: .date)
-                TextField("Value", value: $expense.value, format: .currency(code: "USD"))
-                    .keyboardType(.decimalPad)
+                TextField("Expense Name", text: $problem.problemStatement)
             }
             .navigationTitle("Edit expense")
             .navigationBarTitleDisplayMode(.large)

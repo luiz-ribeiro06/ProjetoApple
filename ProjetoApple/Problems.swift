@@ -8,27 +8,27 @@
 import Foundation
 import SwiftData
 
-enum Subject: String {
+enum Subject: String, Codable, CaseIterable {
     case math = "Matemática"
     case chemistry = "Química"
     case geography = "Geografia"
 }
 
-enum Exam: String {
+enum Exam: String, Codable, CaseIterable {
     case unspecified = "Nenhum"
     case enem = "ENEM"
     case ita = "ITA"
 }
 
 // To do: checar se a questão é válida com base no estilo
-enum Style: String {
+enum Style: String, Codable, CaseIterable {
     case objective = "Objetiva"
     case subjective = "Subjetiva"
     case trueFalse = "Verdadeiro ou Falso"
 }
 
+@Model
 class Problems: Identifiable {
-    let id = UUID()
     var problemStatement: String
     var subject: Subject
     var exam: Exam
@@ -53,6 +53,16 @@ class Problems: Identifiable {
         }
     }
     
+    // Construtor padrão apenas para testes...
+    init() {
+        self.problemStatement = "Quanto é 2 + 2?"
+        self.subject = .math
+        self.exam = .enem
+        self.style = .objective
+        self.possibleAnswers = ["2", "4", "22", "5"]
+        self.correctAnswer = 1
+    }
+    
     init(problemStatement: String, subject: Subject, exam: Exam, style: Style, possibleAnswers: [String], correctAnswer: Int) {
         self.problemStatement = problemStatement
         self.subject = subject
@@ -60,10 +70,9 @@ class Problems: Identifiable {
         self.style = style
         self.correctAnswer = correctAnswer
         
-        switch self.style {
-        case .trueFalse:
+        if style == .trueFalse {
             self.possibleAnswers = ["Verdadeiro", "Falso"]
-        case .objective, .subjective:
+        } else {
             self.possibleAnswers = possibleAnswers
         }
     }
