@@ -79,7 +79,7 @@ struct ProblemView: View {
             .toolbarBackground(.gray.opacity(0.2), for: .bottomBar)
             .toolbarBackground(.visible, for: .bottomBar)
         }
-        .navigationTitle("Responder Lista")
+        .navigationTitle("Responder")
     }
 }
 #Preview {
