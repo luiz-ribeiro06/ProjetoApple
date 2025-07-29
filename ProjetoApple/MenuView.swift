@@ -11,6 +11,7 @@ import SwiftData
 struct MenuView: View {
     @State private var inputText = ""
     @Query(sort: \Problems.problemStatement) private var problems : [Problems]
+    @State private var problemShow: Problems?
     
     
     var filteredProblems: [Problems]{
@@ -28,19 +29,40 @@ struct MenuView: View {
         
         NavigationStack {
             
-            List {
+            
+            
+            VStack {
                 
-                ForEach(filteredProblems) { question in
-                    ProblemCell(problem: question)
+                List {
+                   
+                        
+                        ForEach(problems){question in
+                            ProblemCell(problem: question)
+                                .onTapGesture{
+                                    problemShow = question
+                                    
+                                }
+                        }
+                    
+
+                    ForEach(filteredProblems) { question in
+                        ProblemCell(problem: question)
+                        
+                    }
                 }
             }
+            
+            
                 .navigationTitle(Text("App de Questões"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: ContentView()) {
                             Image(systemName: "plus")
+                            
                                 .searchable(text: $inputText)
                         }
+                        
+                        
                         
                         
                         
