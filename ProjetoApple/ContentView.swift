@@ -80,6 +80,7 @@ struct AddProblemSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) var context
     @State var statement: String = ""
+    @State var str: String = ""
     @State var subject: Subject = .math
     @State var exam: Exam = .enem
     @State var style: Style = .objective
@@ -108,7 +109,12 @@ struct AddProblemSheet: View {
                     }
                 }
                 if style == .subjective {
-                    TextField("Resposta...", text: $possibleAnswers[0], axis: .vertical)
+                    TextField("Resposta...", text: $str, axis: .vertical)
+                    Button("Salvar Resposta") {
+                        if !str.isEmpty {
+                            possibleAnswers = [str]
+                        }
+                    }
                 } else if style == .objective {
                     // To do...
                 }
