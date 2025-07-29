@@ -118,7 +118,21 @@ struct AddProblemSheet: View {
                         }
                     }
                 } else if style == .objective {
-                    // To do...
+                    ForEach(0..<possibleAnswers.count, id: \.self) { index in
+                        TextField("Opção \(index+1)", text: Binding(
+                            get: { possibleAnswers[index] },
+                            set: { possibleAnswers[index] = $0 }
+                        ))
+                    }
+                    Button("Adicionar Opção") {
+                        possibleAnswers.append("")
+                    }
+
+                    Picker("Resposta Correta", selection: $correctAnswer) {
+                        ForEach(0..<possibleAnswers.count, id: \.self) { index in
+                            Text("Opção \(index + 1)").tag(index)
+                        }
+                    }
                 }
             }
             .navigationTitle("Adicionar Questão")
@@ -151,11 +165,11 @@ struct UpdateProblemSheet: View{
             Form{
                 TextField("Expense Name", text: $problem.problemStatement)
             }
-            .navigationTitle("Edit expense")
+            .navigationTitle("Editar questão")
             .navigationBarTitleDisplayMode(.large)
             .toolbar{
                 ToolbarItemGroup(placement: .topBarLeading){
-                    Button("Done"){ dismiss() }
+                    Button("Pronto"){ dismiss() }
                 }
             }
             
