@@ -83,26 +83,35 @@ struct AddProblemSheet: View {
     @State var subject: Subject = .math
     @State var exam: Exam = .enem
     @State var style: Style = .objective
-    @State var possibleAnswers: [String] = ["2"]
+    @State var possibleAnswers: [String] = []
     @State var correctAnswer: Int = 0
-    
     
     var body: some View{
         NavigationStack{
             Form{
-                TextField("Enunciado...", text: $statement)
-                Picker("Disciplina", selection: $subject) {
-                    Text("Matemática").tag(Subject.math)
-                    Text("Química").tag(Subject.chemistry)
-                    Text("Geografia").tag(Subject.geography)
+                Section {
+                    TextField("Enunciado...", text: $statement, axis: .vertical)
+                    Picker("Estilo", selection: $style) {
+                        Text("Objetiva").tag(Style.objective)
+                        Text("Verdadeiro ou Falso").tag(Style.trueFalse)
+                        Text("Subjetiva").tag(Style.subjective)
+                    }
+                    Picker("Disciplina", selection: $subject) {
+                        Text("Matemática").tag(Subject.math)
+                        Text("Química").tag(Subject.chemistry)
+                        Text("Geografia").tag(Subject.geography)
+                    }
+                    Picker("Vestibular", selection: $exam) {
+                        Text("Nenhum").tag(Exam.unspecified)
+                        Text("ENEM").tag(Exam.enem)
+                        Text("ITA").tag(Exam.ita)
+                    }
                 }
-                Picker("Vestibular", selection: $exam) {
-                    Text("Nenhum").tag(Exam.unspecified)
-                    Text("ENEM").tag(Exam.enem)
-                    Text("ITA").tag(Exam.ita)
+                if style == .subjective {
+                    TextField("Resposta...", text: $possibleAnswers[0], axis: .vertical)
+                } else if style == .objective {
+                    // To do...
                 }
-                
-        
             }
             .navigationTitle("Adicionar Questão")
             .navigationBarTitleDisplayMode(.large)
