@@ -6,10 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MenuView: View {
     @State private var inputText = ""
+    @Query(sort: \Problems.problemStatement) private var problems : [Problems]
     
+    
+    var filteredProblems: [Problems]{
+        let filteredProblems = problems.compactMap {question in
+            let titleContainerQuery = question.problemStatement.range(of: inputText, options: .caseInsensitive) != nil
+            return titleContainerQuery ? question: nil
+        }
+        return filteredProblems
+    }
     
     var body: some View {
         
@@ -18,8 +28,12 @@ struct MenuView: View {
         
         NavigationStack {
             
-        Text("")
-            
+            List {
+                
+                ForEach(filteredProblems) { question in
+                    ProblemCell(problem: question)
+                }
+            }
                 .navigationTitle(Text("App de Questões"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {

@@ -67,6 +67,8 @@ struct ProblemCell: View{
     
     var body: some View {
         HStack {
+           
+            
             Text(problem.subject.rawValue)
                 .frame(width: 70, alignment: .leading)
             Text(problem.problemStatement)

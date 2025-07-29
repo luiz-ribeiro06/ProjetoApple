@@ -9,9 +9,13 @@ import Foundation
 import SwiftData
 
 enum Subject: String, Codable, CaseIterable {
+    
     case math = "Matemática"
     case chemistry = "Química"
     case geography = "Geografia"
+    
+    
+         
 }
 
 enum Exam: String, Codable, CaseIterable {
