@@ -23,36 +23,20 @@ struct MenuView: View {
     }
     
     var body: some View {
-        
-        
-
-        
         NavigationStack {
-            
-            
-            
             VStack {
-                
                 List {
-                   
-                        
                         ForEach(problems){question in
                             ProblemCell(problem: question)
                                 .onTapGesture{
                                     problemShow = question
-                                    
                                 }
                         }
-                    
-
                     ForEach(filteredProblems) { question in
                         ProblemCell(problem: question)
-                        
                     }
                 }
             }
-            
-            
                 .navigationTitle(Text("App de Questões"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -61,17 +45,8 @@ struct MenuView: View {
                             
                                 .searchable(text: $inputText)
                         }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                     }
                 }
-            
-            
                 .toolbar {
                     ToolbarItem (placement: .bottomBar) {
                         HStack {
