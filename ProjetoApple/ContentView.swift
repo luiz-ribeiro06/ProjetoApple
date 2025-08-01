@@ -61,7 +61,7 @@ struct ContentView: View {
 }
 
 
-struct ProblemCell: View{
+struct ProblemCell: View {
     
     let problem: Problems
     
@@ -69,10 +69,30 @@ struct ProblemCell: View{
         HStack {
             Text(problem.subject.rawValue)
                 .frame(width: 70, alignment: .leading)
-            Text(problem.problemStatement)
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding(8)
+                .background(Color.blue)
+                .cornerRadius(8)
+            
+            VStack(alignment: .leading) {
+                Text(problem.problemStatement)
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                
+                Text("Estilo: \(problem.style.rawValue)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.leading, 8)
+            
             Spacer()
-            Text(problem.style.rawValue)
         }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
     }
 }
 
