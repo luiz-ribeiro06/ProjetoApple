@@ -31,7 +31,7 @@ struct MenuView: View {
                     }
                 }
             }
-                .navigationTitle(Text("App de Questões"))
+                .navigationTitle(Text("EstudAí!"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: ContentView()) {
