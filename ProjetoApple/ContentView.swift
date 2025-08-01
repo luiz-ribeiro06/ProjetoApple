@@ -67,8 +67,6 @@ struct ProblemCell: View{
     
     var body: some View {
         HStack {
-           
-            
             Text(problem.subject.rawValue)
                 .frame(width: 70, alignment: .leading)
             Text(problem.problemStatement)
@@ -163,7 +161,48 @@ struct UpdateProblemSheet: View{
     var body: some View{
         NavigationStack{
             Form{
-                TextField("Expense Name", text: $problem.problemStatement)
+                Section {
+                    TextField("Expense Name", text: $problem.problemStatement)
+                    Picker("Estilo", selection: $problem.style) {
+                        Text("Objetiva").tag(Style.objective)
+                        Text("Verdadeiro ou Falso").tag(Style.trueFalse)
+                        Text("Subjetiva").tag(Style.subjective)
+                    }
+                    Picker("Disciplina", selection: $problem.subject) {
+                        Text("Matemática").tag(Subject.math)
+                        Text("Química").tag(Subject.chemistry)
+                        Text("Geografia").tag(Subject.geography)
+                    }
+                    Picker("Vestibular", selection: $problem.exam) {
+                        Text("Nenhum").tag(Exam.unspecified)
+                        Text("ENEM").tag(Exam.enem)
+                        Text("ITA").tag(Exam.ita)
+                    }
+                }
+                if problem.style == .subjective {
+                    TextField("Resposta...", text: $problem.possibleAnswers[0], axis: .vertical)
+                    Button("Salvar Resposta") {
+                        if !problem.possibleAnswers[0].isEmpty {
+                            problem.possibleAnswers = [problem.possibleAnswers[0]]
+                        }
+                    }
+                } else if problem.style == .objective {
+                    ForEach(0..<problem.possibleAnswers.count, id: \.self) { index in
+                        TextField("Opção \(index+1)", text: Binding(
+                            get: { problem.possibleAnswers[index] },
+                            set: { problem.possibleAnswers[index] = $0 }
+                        ))
+                    }
+                    Button("Adicionar Opção") {
+                        problem.possibleAnswers.append("")
+                    }
+
+                    Picker("Resposta Correta", selection: $problem.correctAnswer) {
+                        ForEach(0..<problem.possibleAnswers.count, id: \.self) { index in
+                            Text("Opção \(index + 1)").tag(index)
+                        }
+                    }
+                }
             }
             .navigationTitle("Editar questão")
             .navigationBarTitleDisplayMode(.large)

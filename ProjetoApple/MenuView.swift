@@ -23,25 +23,14 @@ struct MenuView: View {
     }
     
     var body: some View {
-        
-        
-
-        
         NavigationStack {
-            
-            
-            
             VStack {
-                
                 List {
                     ForEach(inputText.isEmpty ? problems : filteredProblems ) { question in
                         ProblemCell(problem: question)
-                        
                     }
                 }
             }
-            
-            
                 .navigationTitle(Text("App de Questões"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -49,17 +38,8 @@ struct MenuView: View {
                             Image(systemName: "plus")
                                 .searchable(text: $inputText)
                         }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                     }
                 }
-            
-            
                 .toolbar {
                     ToolbarItem (placement: .bottomBar) {
                         HStack {
