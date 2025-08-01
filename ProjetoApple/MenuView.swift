@@ -27,10 +27,16 @@ struct MenuView: View {
             VStack {
                 List {
                     ForEach(inputText.isEmpty ? problems : filteredProblems ) { question in
-                        ProblemCell(problem: question)
+                        NavigationLink{
+                            ProblemView(problem: Problems(problemStatement: question.problemStatement, subject: question.subject, exam: question.exam, style: question.style, possibleAnswers: question.possibleAnswers, correctAnswer: question.correctAnswer), user: User())
+                        } label: {
+                            ProblemCell(problem: question)
+                        }
                     }
                 }
             }
+            
+            
                 .navigationTitle(Text("EstudAí!"))
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
