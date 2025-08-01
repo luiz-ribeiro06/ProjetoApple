@@ -34,18 +34,7 @@ struct MenuView: View {
             VStack {
                 
                 List {
-                   
-                        
-                        ForEach(problems){question in
-                            ProblemCell(problem: question)
-                                .onTapGesture{
-                                    problemShow = question
-                                    
-                                }
-                        }
-                    
-
-                    ForEach(filteredProblems) { question in
+                    ForEach(inputText.isEmpty ? problems : filteredProblems ) { question in
                         ProblemCell(problem: question)
                         
                     }
@@ -58,7 +47,6 @@ struct MenuView: View {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: ContentView()) {
                             Image(systemName: "plus")
-                            
                                 .searchable(text: $inputText)
                         }
                         
